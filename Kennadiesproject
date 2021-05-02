@@ -1,0 +1,77 @@
+#import statements 
+import numpy as np
+import pandas as pd
+from scipy import stats
+from scipy import interpolate
+import matplotlib.pyplot as plt
+from scipy import io
+from datetime import datetime
+import seaborn as sns
+
+# data filepath 
+from google.colab import drive
+drive.mount('/content/drive')
+filepath = 'drive/My Drive/MASTER XYZ FACTOR FILE (Jan 4 2021).csv'
+
+data = pd.read_csv(filepath)
+display(data)
+#the values I'm using for Chlorophyll are 0, 6.1, 7.6, and 19 
+chla = np.genfromtxt(filepath, skip_header = 1, usecols= 5, delimiter = ',')
+
+#location data and adding it to the data 
+x = np.genfromtxt(filepath, skip_header = 1, usecols = 8, delimiter = ',')
+
+
+df = pd.DataFrame(data)
+sLength = len(df['x'])
+#df.x = abs(df.x /1000)
+
+#df.assign(newx)
+#df = df.assign(new_x=pd.Series(np.random.randn(sLength)).values)
+display(df)
+
+# making my different dataframes based on chla levels (0, 6.1, 7.6, 19)
+df_0 = df[df['Chla'] == 0]
+#print(df_0)
+
+df_6 = df[df['Chla'] == 6.1]
+#print(df_6)
+
+df_7 = df[df['Chla'] == 7.6]
+#print(df_7)
+
+df_19 = df[df['Chla'] == 19]
+#print(df_19)
+
+#bin code! 
+bins_list = [0, 0.5, 1, 2, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100]
+x0 = pd.cut(df_0['x'], bins = bins_list) 
+print(x0)
+x0.head()
+df_0['x'].plot(kind='hist')
+
+x6 = pd.cut(df_6['x'], bins = bins_list)
+x6.head()
+df_6['x'].plot(kind = 'hist')
+
+x7 = pd.cut(df_7['x'], bins = bins_list)
+x7.head()
+df_7['x'].plot(kind = 'hist')
+
+x19 = pd.cut(df_19['x'], bins = bins_list)
+x19.head()
+df_19['x'].plot(kind = 'hist') 
+
+
+x6 = pd.cut(df_6['x'], bins = bins_list)
+x6.head()
+df_6['x'].plot(kind = 'hist')
+
+x7 = pd.cut(df_7['x'], bins = bins_list)
+x7.head()
+df_7['x'].plot(kind = 'hist')
+
+
+x19 = pd.cut(df_19['x'], bins = bins_list)
+x19.head()
+df_19['x'].plot(kind = 'hist') 
